@@ -4,6 +4,8 @@ import ErrorAlert from "../layout/ErrorAlert";
 import ButtonNext from "./ButtonNext";
 import ButtonPrevious from "./ButtonPrevious";
 import ButtonToday from "./ButtonToday";
+import ReservationDate from "./ReservationDate";
+import ReservationCard from "./ReservationCard";
 
 /**
  * Defines the dashboard page.
@@ -16,6 +18,7 @@ function Dashboard({ date }) {
   const [reservationsError, setReservationsError] = useState(null);
 
   useEffect(loadDashboard, [date]);
+  console.log(date)
 
   function loadDashboard() {
     const abortController = new AbortController();
@@ -31,14 +34,12 @@ function Dashboard({ date }) {
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Reservations for date</h4>
-        <div>
-          <ButtonPrevious/>
-          <ButtonToday />
-          <ButtonNext />
-        </div>
       </div>
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
+      {reservations.map(prop=><ReservationCard card={prop}/>)}
+      <ButtonPrevious />
+      <ButtonToday />
+      <ButtonNext />
     </main>
   );
 }

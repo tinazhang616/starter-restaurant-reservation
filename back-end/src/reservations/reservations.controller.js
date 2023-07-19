@@ -9,6 +9,11 @@ async function list(req, res) {
   res.json({data});
 }
 /* create a new reservation */
+async function read(req,res){
+  let reservationDate=req.query.date
+  const data = await service.read(reservationDate)
+  res.json({data})
+}
 async function create(req,res){//need modify
   res.json({
     data: [],
@@ -18,4 +23,5 @@ async function create(req,res){//need modify
 module.exports = {
   list:asyncErrorBoundary(list),
   create:asyncErrorBoundary(create),
+  read:asyncErrorBoundary(read)
 };
