@@ -1,6 +1,8 @@
 import React,{useState} from "react";
+import { today } from "../../utils/date-time";
 
 export default function CreateReservation({createReservation}) {
+    let date=new Date(today())
     const initialFormState = {
         first_name: "",
         last_name: "",
@@ -16,16 +18,33 @@ export default function CreateReservation({createReservation}) {
           [target.name]: target.value,
         });
       };
+
+      const [workingDate,setWorkingDate]=useState(false)
+      let reservationDate=new Date(formData.reservation_date)
+      let reservationTime = formData.reservation_time
     
       const handleSubmit = (event) => {
         event.preventDefault();
-        createReservation({...formData})
-        console.log("Submitted:", formData);
+        // let reservationDate=new Date(formData.reservation_date)
+        // console.log("this is the reservation date",reservationDate.getDay(),reservationDate.getTime()<date.getTime())
+        // if(reservationDate.getTime()<date.getTime()
+        // ||reservationDate.getDay()===2){
+        //     setWorkingDate(true)
+        //     console.log("this is workingdate",workingDate)
+        // }else{
+        //     setWorkingDate(false)
+        // }
+       
+        // createReservation({...formData})
+        console.log(workingDate,"Submitted:", formData);
         setFormData({ ...initialFormState });
       };
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        {reservationDate.getDay()===2 && <p className="alert alert-danger">The reservation date is a Tuesday as the restaurant is closed on Tuesdays.</p>}
+        {reservationDate.getTime()<date.getTime() && <p className="alert alert-danger">The reservation date is in the past. Only future reservations are allowed.</p>}
+        {reservationTime<"10:30"||reservationTime>"21:30"&&<p className="alert alert-danger">Please reserve during usiness hours, up to 60 minues before closing.</p>}
         <div className="mb-3">
           <label htmlFor="first_name" className="form-label">
             First Name:
