@@ -43,7 +43,7 @@ export default function TableSelect() {
   return (
     <div className="row justify-content-around mt-5">
       <ErrorAlert error={errors} />
-      <div className="col-5 text-center">
+      <div className="col-5 rounded bg-white p-4 m-3 border-rounded text-center">
         <h3 className="mb-3">Select a Table</h3>
         <select
           name="table_id"

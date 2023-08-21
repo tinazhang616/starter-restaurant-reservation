@@ -9,7 +9,7 @@ export default function ReservationForm({ onSubmit, onChange, formData }) {
   return (
     <div>
       <form className="m-5" onSubmit={onSubmit}>
-        <h3 className="text-center mt-3">Creat New Reservation</h3>
+        <h3 className="text-center mt-3">Reservation</h3>
         <div className="mb-3">
           <label htmlFor="first_name" className="form-label">
             First Name:

@@ -49,7 +49,7 @@ export default function ReservationEdit() {
 
   return (
     <div className="row justify-content-around">
-      <div className="col-5">
+      <div className="col-5 rounded bg-white m-4 border-rounded">
         <ErrorAlert error={editErrors} />
         <ReservationForm
           onSubmit={handleSubmit}
