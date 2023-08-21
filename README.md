@@ -10,9 +10,10 @@ This application helps clients to create a new reservation when a customer calls
 so that I know how many customers will arrive at the restaurant on a given day.
 
 #### Acceptance Criteria
-![alt text](/front-end/screenshotsFE/us-01-cancel-after.png)
-![alt text]
+
+
 1. The `/dashboard` page will
+![alt text](/front-end/screenshotsFE/us-01-cancel-after.png)
    - display a list of all reservations in one area.
    - each reservation in the list will:
      - Display a "Seat" button on each reservation.
@@ -25,6 +26,7 @@ so that I know how many customers will arrive at the restaurant on a given day.
    - display any error messages returned from the API
 
 2. The `/reservations/new` page will create a new reservation. 
+![alt text](/front-end/screenshotsFE/us-01-submit-before.png)
    - have the following required and not-nullable fields:
      - First name: `<input name="first_name" />`
      - Last name: `<input name="last_name" />`
@@ -48,13 +50,15 @@ I want to seat (assign) their reservation to a specific table<br/>
 so that I know which tables are occupied and free.
 
 3. The `/tables/new` page will create a new table
+![alt text](/front-end/screenshotsFE/us-04-create-table-cancel-before.png)
    - have the following required and not-nullable fields:
      - Table name: `<input name="table_name" />`, which must be at least 2 characters long.
      - Capacity: `<input name="capacity" />`, this is the number of people that can be seated at the table, which must be at least 1 person.
    - display a `Submit` button that, when clicked, saves the new table then displays the `/dashboard` page
    - display a `Cancel` button that, when clicked, returns the user to the previous page
 
-1. The `/reservations/:reservation_id/seat` page will
+4. The `/reservations/:reservation_id/seat` page will
+![alt text](/front-end/screenshotsFE/us-04-seat-capacity-reservation-submit-after.png)
    - have the following required and not-nullable fields:
      - Table number: `<select name="table_id" />`. The text of each option must be `{table.table_name} - {table.capacity}` so the tests can find the options.
    - do not seat a reservation with more people than the capacity of the table
