@@ -10,7 +10,8 @@ This application helps clients to create a new reservation when a customer calls
 so that I know how many customers will arrive at the restaurant on a given day.
 
 #### Acceptance Criteria
-![alt text](/front-end/.screenshots/us-01-cancel-after.png)
+![alt text](/front-end/screenshotsFE/us-01-cancel-after.png)
+![alt text]
 1. The `/dashboard` page will
    - display a list of all reservations in one area.
    - each reservation in the list will:
