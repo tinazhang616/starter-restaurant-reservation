@@ -103,12 +103,7 @@ export async function createTable(params,signal){
 
 export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
-  // Object.entries(params).forEach(([key, value]) =>
-  //   url.searchParams.append(key, value.toString())
-  // );
   return await fetchJson(url, { headers, signal }, [])
-    // .then(formatReservationDate)
-    // .then(formatReservationTime);
 }
 
 export async function seatReservation(table_id,reservation_id, signal){
