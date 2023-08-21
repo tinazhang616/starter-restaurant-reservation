@@ -1,63 +1,51 @@
-import React, {useState} from "react"
-export default function CreateTable(){
-    const initialFormState={
-        table_name:"",
-        capacity:""
+import React, { useState } from "react";
+import TableForm from "./TableForm";
+import { createTable } from "../../utils/api";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import ErrorAlert from "../ErrorAlert";
+export default function CreateTable() {
+  const history = useHistory();
+  const initialFormState = {
+    table_name: "",
+    capacity: 0,
+    occupied: false,
+  };
+  const [tableErrors, setTableErrors] = useState(null);
+  const [formData, setFormData] = useState({ ...initialFormState });
+  const handleChange = ({ target }) => {
+    setFormData({
+      ...formData,
+      [target.name]: target.value,
+    });
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const abortController = new AbortController();
+    formData.capacity = +formData.capacity;
+    setTableErrors(null);
+    if (formData.capacity <= 0) {
+      setTableErrors({ message: "Capacity should greater or equal than 1." });
+      return;
     }
-    const [formData,setFormData]=useState({...initialFormState})
-    const handleChange=({target})=>{
-        setFormData({
-            ...formData,
-            [target.name]:target.value
-        })
-
+    try {
+      await createTable(formData, abortController.signal);
+      history.push("");
+      console.log("submitted:", formData);
+    } catch (error) {
+      setTableErrors(error);
     }
-    const handleSubmit=(event)=>{
-        event.preventDefault()
-        console.log("submitted:",formData)
-        setFormData({...initialFormState})
-
-    }
-    return (
-        <div>
-        <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-            <label htmlFor="table_name" className="form-label">
-              Table name
-            </label>
-            <input
-              className="form-control"
-              type="text"
-              minLength="2"
-              id="table_name"
-              name="table_name"
-              onChange={handleChange}
-              value={formData.table_name}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label for="capacity" className="form-label">
-              Capacity
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="capacity"
-              name="capacity"
-              min="1"
-              onChange={handleChange}
-              value={formData.capacity}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-          <button type="button" className="btn btn-secondary">
-            Cancel
-          </button>
-        </form>
+    return () => abortController.abort();
+  };
+  return (
+    <div className="row justify-content-around">
+      <div className="col-5 rounded bg-white m-4 border-rounded">
+      <ErrorAlert error={tableErrors} />
+      <TableForm
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        formData={formData}
+      />
       </div>
-    )
+    </div>
+  );
 }

@@ -11,14 +11,23 @@ import "./Layout.css";
  *
  * @returns {JSX.Element}
  */
+const backgroundImage = "https://www.expatica.com/app/uploads/sites/5/2014/05/french-food.jpg"
 function Layout() {
   return (
-    <div className="container-fluid">
+    <div
+      className="container-fluid"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundRepeat:'no-repeat',
+        backgroundPosition:'center'
+      }}
+    >
       <div className="row h-100">
         <div className="col-md-2 side-bar">
           <Menu />
         </div>
-        <div className="col">
+        <div className="col p-0">
           <Routes />
         </div>
       </div>

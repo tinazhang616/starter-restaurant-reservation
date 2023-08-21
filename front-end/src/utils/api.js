@@ -67,3 +67,77 @@ export async function listReservations(params, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+export async function updatedReservation(params,reservation_id,signal){
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data:params}),
+    signal,
+  };
+  return await fetchJson(url, options, []);
+}
+
+export async function createReservation(params,signal){
+  const url = new URL(`${API_BASE_URL}/reservations/`);
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({data:params}),
+    signal,
+  };
+  return await fetchJson(url, options, []);
+}
+
+export async function createTable(params,signal){
+  const url = new URL(`${API_BASE_URL}/tables/`);
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({data:params}),
+    signal,
+  };
+  return await fetchJson(url, options, []);
+}
+
+export async function listTables(signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  // Object.entries(params).forEach(([key, value]) =>
+  //   url.searchParams.append(key, value.toString())
+  // );
+  return await fetchJson(url, { headers, signal }, [])
+    // .then(formatReservationDate)
+    // .then(formatReservationTime);
+}
+
+export async function seatReservation(table_id,reservation_id, signal){
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`)
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data:{reservation_id:reservation_id}}),
+    signal,
+  };
+  return await fetchJson(url, options, []);
+}
+
+export async function removeAssignedTable(table_id, reservation_id,signal){
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`)
+  const options = {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify({ data: { reservation_id } }),
+    signal,
+  };
+  return await fetchJson(url, options, []);
+}
+export async function readReservation(reservation_id,signal){
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`)
+  const options = {
+    method: "GET",
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options, []);
+}

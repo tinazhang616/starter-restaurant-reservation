@@ -5,8 +5,7 @@ const fsPromises = fs.promises;
 
 const baseURL = process.env.BASE_URL || "http://localhost:3000";
 
-const onPageConsole = (msg) =>
-  Promise.all(msg.args().map((event) => event.jsonValue())).then((eventJson) =>
+const onPageConsole = (msg) => Promise.all(msg.args().map((event) =>event.jsonValue())).then((eventJson) =>
     console.log(`<LOG::page console ${msg.type()}>`, ...eventJson)
   );
 
@@ -54,6 +53,7 @@ describe("US-02 - Create reservation on a future, working date - E2E", () => {
       });
 
       const alerts = await page.$$(".alert-danger");
+      console.log("this is alerts",alerts)
       expect(alerts.length).toBeGreaterThan(0);
     });
 
