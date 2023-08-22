@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { updatedReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 export default function ReservationCard(prop) {
   const [editErrors, setEditErrors] = useState(null);
   const handleCancel = async (e) => {
@@ -48,22 +49,21 @@ export default function ReservationCard(prop) {
           <strong>Status: </strong> {prop.card.status}
         </p>
         <div className="d-flex justify-content-between">
-          <div><a
+          <div><Link
             className="btn btn-secondary mr-2"
-            href={`/reservations/${prop.card.reservation_id}/edit`}
+            to={`/reservations/${prop.card.reservation_id}/edit`}
           >
             <span className="oi oi-pencil" />
               &nbsp;
             Edit
-          </a>
-
+          </Link>
           {prop.card.status === "booked" && (
-            <a
-              href={`/reservations/${prop.card.reservation_id}/seat`}
+            <Link
+              to={`/reservations/${prop.card.reservation_id}/seat`}
               className="btn btn-primary"
             >
               Seat
-            </a>
+            </Link>
           )}
           </div>
           <div>
