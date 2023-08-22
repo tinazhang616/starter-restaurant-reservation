@@ -1,186 +1,23 @@
 # Project Name: Restaurant Reservation System
 
-https://restaurant-client-26cm.onrender.com/
+Live site: https://restaurant-client-26cm.onrender.com/
 
-## Documentation of the API
-## User Stories
-### US-01 Create and list reservations
-
-This application helps clients to create a new reservation when a customer calls<br/>
-so that I know how many customers will arrive at the restaurant on a given day.
-
-#### Acceptance Criteria
-
-
-1. The `/dashboard` page will display reservations and tables
-
-![alt text](/front-end/screenshotsFE/us-01-cancel-after.png)
-   - display a list of all reservations in one area. Display a list of all tables, sorted by `table_name`, in another area of the dashboard
-   - each reservation in the list will:
-     - list all reservations for one date only. (E.g. if the URL is `/dashboard?date=2035-12-30` then send a GET to `/reservations?date=2035-12-30` to list the reservations for that date). The date is defaulted to today, and the reservations are sorted by time.
-     - display the status of the reservation. The default status is "booked"
-     - display the Seat button only when the reservation status is "booked".
-     - clicking the Seat button changes the status to "seated" and hides the Seat button.
-     - clicking the Finish button associated with the table changes the reservation status to "finished" and removes the reservation from the dashboard.
-
-![alt text](/front-end/screenshotsFE/dashboard-table-reservation2.PNG)
-   - Each table will display "Free" or "Occupied" depending on whether a reservation is seated at the table.
-     - The "Free" or "Occupied" text must have a `data-table-id-status=${table.table_id}` attribute, so it can be found by the tests.
-     - Display a "Finish" button on each _occupied_ table.
-     - Clicking the "Finish" button will display the following confirmation: "Is this table ready to seat new guests? This cannot be undone." If the user selects "Ok" the system will: 
-        - Send a `DELETE` request to `/tables/:table_id/seat` in order to remove the table assignment.
-        - The server should return 400 if the table is not occupied. 
-        - Refresh the list of tables to show that the table is now available.
-      - Clicking the "Cancel" makes no changes.
-      - display next, previous, and today buttons that allow the user to see reservations on other dates
-      - display any error messages returned from the API
-
-2. The `/reservations/new` page will create a new reservation. 
-![alt text](/front-end/screenshotsFE/us-01-submit-before.png)
-   - have the following required and not-nullable fields:
-     - First name: `<input name="first_name" />`
-     - Last name: `<input name="last_name" />`
-     - Mobile number: `<input name="mobile_number" />`
-     - Date of reservation: `<input name="reservation_date" />`
-     - Time of reservation: `<input name="reservation_time" />`
-     - Number of people in the party, which must be at least 1 person. `<input name="people" />`
-   - display a `Submit` button that, when clicked, saves the new reservation, then displays the `/dashboard` page for the date of the new reservation
-   - display a `Cancel` button that, when clicked, returns the user to the previous page
-   - display any error messages returned from the API
-   - the reservation can be only created in the future, on working days (Tuesday is closed.), and eligible timeframe. Following additional constraints are violated:
-     - The reservation time is before 10:30 AM.
-     - The reservation time is after 9:30 PM, because the restaurant closes at 10:30 PM and the customer needs to have time to enjoy their meal.
-     - The reservation date and time combination is in the past. Only future reservations are allowed. E.g., if it is noon, only allow reservations starting _after_ noon today.
-
-3. The `/tables/new` page will create a new table
-![alt text](/front-end/screenshotsFE/us-04-create-table-cancel-before.png)
-   - have the following required and not-nullable fields:
-     - Table name: `<input name="table_name" />`, which must be at least 2 characters long.
-     - Capacity: `<input name="capacity" />`, this is the number of people that can be seated at the table, which must be at least 1 person.
-   - display a `Submit` button that, when clicked, saves the new table then displays the `/dashboard` page
-   - display a `Cancel` button that, when clicked, returns the user to the previous page
-
-4. The `/reservations/:reservation_id/seat` page will
-![alt text](/front-end/screenshotsFE/us-04-seat-capacity-reservation-submit-after.png)
-   - have the following required and not-nullable fields:
-     - Table number: `<select name="table_id" />`. The text of each option must be `{table.table_name} - {table.capacity}` so the tests can find the options.
-     - do not seat a reservation with more people than the capacity of the table
-     - display a `Submit` button that, when clicked, assigns the table to the reservation then displays the `/dashboard` page
-     - display a `Cancel` button that, when clicked, returns the user to the previous page
-   - if the table capacity is less than the number of people in the reservation, return 400 with an error message.
-   - if the table is occupied, return 400 with an error message.
-
-5. The `/search` page will
-![alt text](/front-end/screenshotsFE/us-07-search-reservations-submit-no-result-after.png)
-   - Display a search box `<input name="mobile_number" />` that displays the placeholder text: "Enter a customer's phone number"
-   - Display a "Find" button next to the search box.
-   - Clicking on the "Find" button will submit a request to the server (e.g. GET `/reservations?mobile_number=800-555-1212`).
-     - then the system will look for the reservation(s) in the database and display all matched records on the `/search` page using the same reservations list component as the `/dashboard` page.
-     - the search page will display all reservations matching the phone number, regardless of status.
-     - display `No reservations found` if there are no records found after clicking the Find button.
-
-6. The `/dashboard` and the `/search` page will
-![alt text](/front-end/screenshotsFE/search-found.PNG)
-   - Display an "Edit" button next to each reservation
-     - Clicking the "Edit" button will navigate the user to the `/reservations/:reservation_id/edit` page
-   - Clicking the "Cancel" button will display the following confirmation: "Do you want to cancel this reservation? This cannot be undone."
-     - Clicking "Ok" on the confirmation dialog, sets the reservation status to `cancelled`, and the results on the page are refreshed.
-     - Clicking "Cancel" on the confirmation dialog makes no changes.
-
-7. The `/reservations/:reservation_id/edit` page will display the reservation form with the existing reservation data filled in
-![alt text](/front-end/screenshotsFE/edit.PNG)
-   - Only reservations with a status of "booked" can be edited.
-   - Clicking the "Submit" button will save the reservation, then displays the previous page.
-   - Clicking "Cancel" makes no changes, then display the previous page.
-
-> **Hint** The same validation used for create applies to editing a reservation. The form and the API for updating a reservation must not allow the user to violate any of the rules specified when creating a reservation.
+## Description
+This application helps restuatant managers to create a new reservation and set the table when a customer calls. The reservations and tables could update as needed.<br/>
 
 ## Techonology Used
+ - Full stack reservation and table management system.
+ - Implemented react router and express to build a RESTful API in order to make HTTP requests for all of the reservation data stored on the connected PostgreSQL database.
+ - Created CRUD functions and Knex queries to handle data going to and coming from the database.
+ - Used Git to track changes and versions while keeping sensitive information from being pushed to repositories.
+ - Used bootstrap to styling the webpage.
+ - lived this monorepo on Render and connected with database
+ - Technology: React, Node.js, Express, Knex, and PostgreSQL.
+
 ## Installation instructions
-
-
-### Backend Existing files
-
-The `./back-end` folder contains all the code for the backend project.
-
-The table below describes the existing files in the `./back-end` folder:
-
-| Folder/file path                                         | Description                                                                                                         |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `./back-end/knexfile.js`                                 | The Knex configuration file. You will not need to make changes to this file.                                        |
-| `./back-end/src/app.js`                                  | Defines the Express application and connects routers.                                                               |
-| `./back-end/src/db/connection.js`                        | The Knex connection file. You will not need to make changes to this file.                                           |
-| `./back-end/src/db/migrations`                           | The Knex migrations folder.                                                                                         |
-| `./back-end/src/db/seeds/`                               | The Knex seeds folder.                                                                                              |
-| `./back-end/src/errors/errorHandler.js`                  | Defined an Express API error handler.                                                                               |
-| `./back-end/src/errors/notFound.js`                      | Defined an Express API "not found" handler.                                                                         |
-| `./back-end/src/reservations/reservations.controller.js` | A controller for the reservations resource.                                                                         |
-| `./back-end/src/reservations/reservations.router.js`     | A router for the reservations resource.                                                                             |
-| `./back-end/src/server.js`                               | Defines the node server.                                                                                            |
-| `./back-end/test`                                        | A folder that contains all of the integration tests. You will not need to make changes to the files in this folder. |
-| `./back-end/vercel.json`                                 | A vercel deployment configuration file. You will not need to make changes to this file.                             |
-
-
-
-## Database setup
-
-1. Set up four new ElephantSQL database instances - development, test, preview, and production - by following the instructions in the "PostgreSQL: Creating & Deleting Databases" checkpoint.
-1. After setting up your database instances, connect DBeaver to your new database instances by following the instructions in the "PostgreSQL: Installing DBeaver" checkpoint.
-
-### Knex
-
-Run `npx knex` commands from within the `back-end` folder, which is where the `knexfile.js` file is located.
-
-## Installation
-
 1. Fork and clone this repository.
-1. Run `cp ./back-end/.env.sample ./back-end/.env`.
-1. Update the `./back-end/.env` file with the connection URL's to your ElephantSQL database instance.
-1. Run `cp ./front-end/.env.sample ./front-end/.env`.
-1. You should not need to make changes to the `./front-end/.env` file unless you want to connect to a backend at a location other than `http://localhost:5001`.
-1. Run `npm install` to install project dependencies.
-1. Run `npm run start:dev` to start your server in development mode.
-
-If you have trouble getting the server to run, reach out for assistance.
-
-## Running tests
-
-This project has unit, integration, and end-to-end (e2e) tests. You have seen unit and integration tests in previous projects.
-End-to-end tests use browser automation to interact with the application just like the user does.
-Once the tests are passing for a given user story, you have implemented the necessary functionality.
-
-Test are split up by user story. You can run the tests for a given user story by running:
-
-`npm run test:X` where `X` is the user story number.
-
-Have a look at the following examples:
-
-- `npm run test:1` runs all the tests for user story 1 (both frontend and backend).
-- `npm run test:3:backend` runs only the backend tests for user story 3.
-- `npm run test:3:frontend` runs only the frontend tests for user story 3.
-
-Whenever possible, frontend tests will run before backend tests to help you follow outside-in development.
-
-> **Note** When running `npm run test:X` If the frontend tests fail, the tests will stop before running the backend tests. Remember, you can always run `npm run test:X:backend` or `npm run test:X:frontend` to target a specific part of the application.
-
-Since tests take time to run, you might want to consider running only the tests for the user story you're working on at any given time.
-
-Once you have all user stories complete, you can run all the tests using the following commands:
-
-- `npm test` runs _all_ tests.
-- `npm run test:backend` runs _all_ backend tests.
-- `npm run test:frontend` runs _all_ frontend tests.
-- `npm run test:e2e` runs only the end-to-end tests.
-
-If you would like a reminder of which npm scripts are available, run `npm run` to see a list of available commands.
-
-Note that the logging level for the backend is set to `warn` when running tests and `info` otherwise.
-
-
-## Product Backlog
-
-The Product Manager has already created the user stories for _Periodic Tables_. Each of the user stories is listed below, and your Product Manager wants them to be implemented in the order in which they are listed. Another developer has already written the tests for each of the user stories so that you don't have to.
-
-Although the user stories do not say anything about deployment, you should consider deploying early and often. You may even decide to deploy before adding any features. We recommend that you use Render to deploy this project.
-
-
+2. Run cp ./back-end/.env.sample ./back-end/.env.
+3. Update the ./back-end/.env file with the connection URL's to your database instance.
+4. Run cp ./front-end/.env.sample ./front-end/.env.
+5. Run npm install to install project dependencies.
+6. Run npm run start:dev to start your server in development mode.
