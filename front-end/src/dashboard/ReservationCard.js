@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { updatedReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 export default function ReservationCard(prop) {
+  const history = useHistory()
   const [editErrors, setEditErrors] = useState(null);
   const handleCancel = async (e) => {
     e.preventDefault();
@@ -18,7 +19,7 @@ export default function ReservationCard(prop) {
           prop.card.reservation_id,
           controller.signal
         );
-        prop.loadDashboard();
+        history.go(`/dashboard?date=${prop.card.reservation_date}`);
       }
     } catch (error) {
       setEditErrors(error);

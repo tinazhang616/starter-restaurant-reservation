@@ -1,6 +1,6 @@
 # Project Name: Restaurant Reservation System
 
-> https://restaurant-client-26cm.onrender.com/dashboard
+https://restaurant-client-26cm.onrender.com/
 
 ## Documentation of the API
 ## User Stories
