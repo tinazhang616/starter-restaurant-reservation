@@ -30,7 +30,7 @@ export default function ReservationCard(prop) {
     <div key={`${prop.card.reservation_id}`} className="card mb-3">
       <ErrorAlert error={editErrors} />
       <h5 className="card-header">
-        <strong>Reservation Name: </strong>
+        <strong>Name: </strong>
         {prop.card.first_name} {prop.card.last_name}
       </h5>
       <div className="card-body">
