@@ -43,7 +43,7 @@ export default function ReservationForm({ onSubmit, onChange, formData }) {
             Mobile Number:
           </label>
           <input
-            type="tel"
+            type="number"
             className="form-control"
             id="mobile_number"
             name="mobile_number"

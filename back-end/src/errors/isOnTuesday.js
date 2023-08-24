@@ -1,6 +1,8 @@
 function isOnTuesday(str) {
-  let tues = new Date(str).getDay();
-  if (tues+1 === 2) {
+  const [year, month, day] = str.split("-");
+  const date = new Date(`${month} ${day}, ${year}`);
+  let tues = date.getDay();
+  if (tues === 2) {
     return true
   }
   return false;
