@@ -3,7 +3,7 @@ import { updatedReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 export default function ReservationCard(prop) {
-  const history = useHistory()
+  const history = useHistory();
   const [editErrors, setEditErrors] = useState(null);
   const handleCancel = async (e) => {
     e.preventDefault();
@@ -50,34 +50,36 @@ export default function ReservationCard(prop) {
           <strong>Status: </strong> {prop.card.status}
         </p>
         <div className="d-flex justify-content-between">
-          <div><Link
-            className="btn btn-secondary mr-2"
-            to={`/reservations/${prop.card.reservation_id}/edit`}
-          >
-            <span className="oi oi-pencil" />
-              &nbsp;
-            Edit
-          </Link>
-          {prop.card.status === "booked" && (
-            <Link
-              to={`/reservations/${prop.card.reservation_id}/seat`}
-              className="btn btn-primary"
-            >
-              Seat
-            </Link>
-          )}
+          <div>
+            {prop.card.status === "booked" && (
+              <Link
+                className="btn btn-secondary mr-2"
+                to={`/reservations/${prop.card.reservation_id}/edit`}
+              >
+                <span className="oi oi-pencil" />
+                &nbsp; Edit
+              </Link>
+            )}
+            {prop.card.status === "booked" && (
+              <Link
+                to={`/reservations/${prop.card.reservation_id}/seat`}
+                className="btn btn-primary"
+              >
+                Seat
+              </Link>
+            )}
           </div>
           <div>
-          {prop.card.status !== "cancelled" && (
-            <button
-              className="btn btn-danger"
-              onClick={handleCancel}
-              data-reservation-id-cancel={prop.card.reservation_id}
-            >
-              <span className="oi oi-trash" />
-              &nbsp;Cancel
-            </button>
-          )}
+            {["booked","seated"].includes(prop.card.status) && (
+              <button
+                className="btn btn-danger"
+                onClick={handleCancel}
+                data-reservation-id-cancel={prop.card.reservation_id}
+              >
+                <span className="oi oi-trash" />
+                &nbsp;Cancel
+              </button>
+            )}
           </div>
         </div>
       </div>

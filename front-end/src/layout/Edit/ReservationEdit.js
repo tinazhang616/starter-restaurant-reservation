@@ -7,6 +7,8 @@ import { readReservation, updatedReservation } from "../../utils/api";
 import ReservationForm from "../createReservation/ReservationForm";
 import ErrorAlert from "../ErrorAlert";
 import { formatAsDate } from "../../utils/date-time";
+import { isNotOnTuesday } from "../../utils/date-time";
+import { isInTheFuture } from "../../utils/date-time";
 
 export default function ReservationEdit() {
   const history = useHistory();
@@ -28,6 +30,11 @@ export default function ReservationEdit() {
   const handleChange = ({ target }) => {
     setReservation({ ...reservation, [target.name]: target.value });
   };
+  const findErrors = (date, errors) => {
+    isNotOnTuesday(date, errors);
+    isInTheFuture(date, errors);
+  };
+
   /* only reservation is booked status could be edit */
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +43,12 @@ export default function ReservationEdit() {
       setEditErrors({
         message: <p>Only booked status reservation could be edit.</p>,
       });
+      return;
+    }
+    const errors = [];
+    findErrors(reservation.reservation_date, errors);
+    if (errors.length) {
+      setEditErrors({ message: errors });
       return;
     }
     try {
