@@ -3,6 +3,7 @@ const service = require("./reservations.service");
 const hasProperties = require("../errors/hasProperties");
 const valid_time = require("../errors/valid_time");
 const isOnTuesday = require("../errors/isOnTuesday");
+const tableService = require("../tables/tables.service");
 
 const Valid_Properties = [
   "first_name",
@@ -130,6 +131,18 @@ async function update(req, res, next) {
     reservation_id: res.locals.reservation.reservation_id,
   };
   if (updatedReservation.status !== "unknown") {
+    let { status } = await service.read(res.locals.reservation.reservation_id);
+    if (updatedReservation.status === "cancelled" && status === "seated") {
+      let response = await tableService.readReservationId(
+        res.locals.reservation.reservation_id
+      );
+      // console.log("this is response table accordingly", response);
+      await tableService.update({
+        table_id: response.table_id,
+        reservation_id: null,
+        occupied: false,
+      });
+    }
     let data = await service.update(updatedReservation);
     res.status(200).json({ data: data });
   } else {

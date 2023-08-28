@@ -12,6 +12,13 @@ function create(tableData) {
 function read(table_id) {
   return knex("tables").select("*").where({ table_id }).first();
 }
+function readReservationId(reservation_id){
+  return knex("tables as t")
+  .join("reservations as r","r.reservation_id","t.reservation_id")
+  .select("*")
+  .where({"r.reservation_id":reservation_id})
+  .first()
+}
 function update(updatedTable) {
   return knex("tables")
     .select("*")
@@ -26,5 +33,6 @@ module.exports = {
   read,
   update,
   create,
-  destroy
+  destroy,
+  readReservationId,
 };
