@@ -63,7 +63,7 @@ function reservationInFuture(req, res, next) {
   }
   next();
 }
-
+//verify data has valid properties when create new reservations
 const hasRequiredProperties = hasProperties(...Valid_Properties);
 
 //return reservation according to required mobile_number or date
@@ -76,11 +76,12 @@ async function list(req, res) {
   const data = date ? await service.listBydate(date) : await service.list();
   res.json({ data: data });
 }
-
+//read specific reservation through the reservation_id
 async function read(req, res) {
   let { reservation: data } = res.locals;
   res.status(200).json({ data });
 }
+//return 404 if reservation is not exist
 async function reservationExist(req, res, next) {
   const { reservation_id } = req.params;
   let data = await service.read(reservation_id);
@@ -136,7 +137,6 @@ async function update(req, res, next) {
       let response = await tableService.readReservationId(
         res.locals.reservation.reservation_id
       );
-      // console.log("this is response table accordingly", response);
       await tableService.update({
         table_id: response.table_id,
         reservation_id: null,
