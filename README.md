@@ -1,8 +1,10 @@
 # Project Name: Restaurant Reservation System
+![alt text](./front-end/screenshotsFE/dashboard-table-reservation2.PNG)
 
 Live site: https://restaurant-client-26cm.onrender.com/
 
 ## Description
+![alt text](./front-end/screenshotsFE/edit.PNG)
 This application helps restuatant managers to create a new reservation and set the table when a customer calls. The reservations and tables could update as needed.<br/>
 
 ## Techonology Used
